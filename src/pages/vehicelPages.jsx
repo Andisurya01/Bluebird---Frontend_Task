@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { getCars } from "../api/api"
 import { addBook } from "./../store/myBook"
+import { addCar } from "../store/carSlice"
 export default function VehicelPages() {
     const redux = useSelector((state) => state.cars)
     console.log(redux);
@@ -33,25 +34,33 @@ export default function VehicelPages() {
         navigator.clipboard.writeText(window.location.href)
     };
 
+    const handleAddCar = () => {
+        dispatch(addCar({
+            description : car.description,
+            imageURL : car.imageURL,
+            price : car.price,
+            vehicle :   car.vehicle
+        }));
+    };
 
     return (
-        <section className="flex justify-center gap-5 max-w-screen-xl mx-auto">
+        <section className="flex justify-center gap-5 max-w-screen-xl mx-auto py-20">
             <div className="bg-white p-4 rounded-xl aspect-w-1 aspect-h-1 relative">
                 <div className="absolute flex gap-2 bg-white px-4 py-2 rounded-br-xl">
-                    <button onClick={handleAddBook} className="flex items-center">Like<img className="" src="icon/like.svg" /></button>
-                    <button onClick={copyUrl} className="flex items-center">Share<img src="icon/share.svg" /></button>
+                    <button onClick={handleAddBook} className="flex items-center">Like<img className="pl-2" src="icon/like.svg" /></button>
+                    <button onClick={copyUrl} className="flex items-center">Share<img className="pl-2" src="icon/share.svg" /></button>
                 </div>
                 <img className="object-cover rounded-xl w-full h-[500px] bg-gray-100" src={car.imageURL} alt={car.vehicle} />
             </div>
             <div className="bg-white p-4 rounded-xl flex flex-col">
                 <div className="flex-grow">
-                    <h1 className="font-bold text-xl pb-2">Description</h1>
+                    <h1 className="font-bold text-xl pb-2 text-gray-700">Description</h1>
                     <p className="">{car.description}</p>
                 </div>
                 <hr className="pb-4" />
                 <div className="grid grid-cols-2 justify-around items-center gap-4">
                     <p className="py-2 px-4 text-center">{car.price}</p>
-                    <p className="bg-blue-500 text-center py-2 px-4 rounded-full font-medium text-white">Book</p>
+                    <button onClick={handleAddCar} className="bg-blue-500 text-center py-2 px-4 rounded-full font-medium text-white">Book</button>
                 </div>
             </div>
         </section>
